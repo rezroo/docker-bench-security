@@ -3,7 +3,7 @@
 check_8() {
   logit "\n"
   id_8="8"
-  desc_8="Seccomp check"
+  desc_8="Ubuntu security checks"
   check_8="$id_8 - $desc_8"
   info "$check_8"
   startsectionjson "$id_8" "$desc_8"
@@ -34,14 +34,14 @@ check_8_2() {
   check_8_2="$id_8_2  - $desc_8_2"
   starttestjson "$id_8_2" "$desc_8_2"
 
-  totalChecks=$((totalChecks + 1)) 
+  totalChecks=$((totalChecks + 1))
 
   aa_status=$(aa-status 2>/dev/null)
   if [ $? -eq 0 ]; then
     pass "$check_8_2"
     resulttestjson "PASS"
     info "${aa_status}"
-    currentScore=$((currentScore + 1))  
+    currentScore=$((currentScore + 1))
   else
     resulttestjson "WARN" "aa-status returned a non-zero exit code"
     currentScore=$((currentScore - 1))
