@@ -141,6 +141,14 @@ docker_swarm_configuration() {
   check_7_end
 }
 
+
+ubuntu_host_checks() {
+  check_8
+  check_8_1
+  check_8_2
+  check_8_end
+}
+
 community_checks() {
   check_c
   check_c_1
