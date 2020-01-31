@@ -82,8 +82,7 @@ get_docker_effective_command_line_args() {
   get_docker_cumulative_command_line_args "$OPTION" | tail -n1
 }
 
-get_docker_configuration_file_args() {
-  OPTION="$1"
+get_docker_configuration_file() {
   FILE="$(get_docker_effective_command_line_args '--config-file' | \
     sed 's/.*=//g')"
 
@@ -94,8 +93,14 @@ get_docker_configuration_file_args() {
   else
     CONFIG_FILE='/dev/null'
   fi
+}
 
-  grep "$OPTION" "$CONFIG_FILE" | sed 's/.*: //g' | tr -d \",
+get_docker_configuration_file_args() {
+  OPTION="$1"
+
+  get_docker_configuration_file
+
+  grep "$OPTION" "$CONFIG_FILE" | sed 's/.*://g' | tr -d '" ',
 }
 
 get_systemd_service_file() {
@@ -119,6 +124,6 @@ yell "# ------------------------------------------------------------------------
 # Docker, Inc. (c) 2015-
 #
 # Checks for dozens of common best-practices around deploying Docker containers in production.
-# Inspired by the CIS Docker Community Edition Benchmark v1.1.0.
+# Inspired by the CIS Docker Benchmark v1.2.0.
 # ------------------------------------------------------------------------------"
 }

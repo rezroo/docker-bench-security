@@ -40,7 +40,7 @@ check_3_1() {
 # 3.2
 check_3_2() {
   id_3_2="3.2"
-  desc_3_2="Ensure that docker.service file permissions are set to 644 or more restrictive"
+  desc_3_2="Ensure that docker.service file permissions are appropriately set"
   check_3_2="$id_3_2  - $desc_3_2"
   starttestjson "$id_3_2" "$desc_3_2"
 
@@ -255,7 +255,7 @@ check_3_9() {
   starttestjson "$id_3_9" "$desc_3_9"
 
   totalChecks=$((totalChecks + 1))
-  if ! [ -z $(get_docker_configuration_file_args 'tlscacert') ]; then
+  if [ -n "$(get_docker_configuration_file_args 'tlscacert')" ]; then
     tlscacert=$(get_docker_configuration_file_args 'tlscacert')
   else
     tlscacert=$(get_docker_effective_command_line_args '--tlscacert' | sed -n 's/.*tlscacert=\([^s]\)/\1/p' | sed 's/--/ --/g' | cut -d " " -f 1)
@@ -287,7 +287,7 @@ check_3_10() {
   starttestjson "$id_3_10" "$desc_3_10"
 
   totalChecks=$((totalChecks + 1))
-  if ! [ -z $(get_docker_configuration_file_args 'tlscacert') ]; then
+  if [ -n "$(get_docker_configuration_file_args 'tlscacert')" ]; then
     tlscacert=$(get_docker_configuration_file_args 'tlscacert')
   else
     tlscacert=$(get_docker_effective_command_line_args '--tlscacert' | sed -n 's/.*tlscacert=\([^s]\)/\1/p' | sed 's/--/ --/g' | cut -d " " -f 1)
@@ -299,13 +299,13 @@ check_3_10() {
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_10"
-      warn "     * Wrong permissions for $tlscacert"
+      warn "      * Wrong permissions for $tlscacert"
       resulttestjson "WARN" "Wrong permissions for $tlscacert"
       currentScore=$((currentScore - 1))
     fi
   else
     info "$check_3_10"
-    info "     * No TLS CA certificate found"
+    info "      * No TLS CA certificate found"
     resulttestjson "INFO" "No TLS CA certificate found"
     currentScore=$((currentScore + 0))
   fi
@@ -319,7 +319,7 @@ check_3_11() {
   starttestjson "$id_3_11" "$desc_3_11"
 
   totalChecks=$((totalChecks + 1))
-  if ! [ -z $(get_docker_configuration_file_args 'tlscert') ]; then
+  if [ -n "$(get_docker_configuration_file_args 'tlscert')" ]; then
     tlscert=$(get_docker_configuration_file_args 'tlscert')
   else
     tlscert=$(get_docker_effective_command_line_args '--tlscert' | sed -n 's/.*tlscert=\([^s]\)/\1/p' | sed 's/--/ --/g' | cut -d " " -f 1)
@@ -331,13 +331,13 @@ check_3_11() {
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_11"
-      warn "     * Wrong ownership for $tlscert"
+      warn "      * Wrong ownership for $tlscert"
       resulttestjson "WARN" "Wrong ownership for $tlscert"
       currentScore=$((currentScore - 1))
     fi
   else
     info "$check_3_11"
-    info "     * No TLS Server certificate found"
+    info "      * No TLS Server certificate found"
     resulttestjson "INFO" "No TLS Server certificate found"
     currentScore=$((currentScore + 0))
   fi
@@ -351,7 +351,7 @@ check_3_12() {
   starttestjson "$id_3_12" "$desc_3_12"
 
   totalChecks=$((totalChecks + 1))
-  if ! [ -z $(get_docker_configuration_file_args 'tlscert') ]; then
+  if [ -n "$(get_docker_configuration_file_args 'tlscert')" ]; then
     tlscert=$(get_docker_configuration_file_args 'tlscert')
   else
     tlscert=$(get_docker_effective_command_line_args '--tlscert' | sed -n 's/.*tlscert=\([^s]\)/\1/p' | sed 's/--/ --/g' | cut -d " " -f 1)
@@ -363,13 +363,13 @@ check_3_12() {
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_12"
-      warn "     * Wrong permissions for $tlscert"
+      warn "      * Wrong permissions for $tlscert"
       resulttestjson "WARN" "Wrong permissions for $tlscert"
       currentScore=$((currentScore - 1))
     fi
   else
     info "$check_3_12"
-    info "     * No TLS Server certificate found"
+    info "      * No TLS Server certificate found"
     resulttestjson "INFO" "No TLS Server certificate found"
     currentScore=$((currentScore + 0))
   fi
@@ -383,7 +383,7 @@ check_3_13() {
   starttestjson "$id_3_13" "$desc_3_13"
 
   totalChecks=$((totalChecks + 1))
-  if ! [ -z $(get_docker_configuration_file_args 'tlskey') ]; then
+  if [ -n "$(get_docker_configuration_file_args 'tlskey')" ]; then
     tlskey=$(get_docker_configuration_file_args 'tlskey')
   else
     tlskey=$(get_docker_effective_command_line_args '--tlskey' | sed -n 's/.*tlskey=\([^s]\)/\1/p' | sed 's/--/ --/g' | cut -d " " -f 1)
@@ -395,13 +395,13 @@ check_3_13() {
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_13"
-      warn "     * Wrong ownership for $tlskey"
+      warn "      * Wrong ownership for $tlskey"
       resulttestjson "WARN" "Wrong ownership for $tlskey"
       currentScore=$((currentScore - 1))
     fi
   else
     info "$check_3_13"
-    info "     * No TLS Key found"
+    info "      * No TLS Key found"
     resulttestjson "INFO" "No TLS Key found"
     currentScore=$((currentScore + 0))
   fi
@@ -415,7 +415,7 @@ check_3_14() {
   starttestjson "$id_3_14" "$desc_3_14"
 
   totalChecks=$((totalChecks + 1))
-  if ! [ -z $(get_docker_configuration_file_args 'tlskey') ]; then
+  if [ -n "$(get_docker_configuration_file_args 'tlskey')" ]; then
     tlskey=$(get_docker_configuration_file_args 'tlskey')
   else
     tlskey=$(get_docker_effective_command_line_args '--tlskey' | sed -n 's/.*tlskey=\([^s]\)/\1/p' | sed 's/--/ --/g' | cut -d " " -f 1)
@@ -427,13 +427,13 @@ check_3_14() {
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_14"
-      warn "     * Wrong permissions for $tlskey"
+      warn "      * Wrong permissions for $tlskey"
       resulttestjson "WARN" "Wrong permissions for $tlskey"
       currentScore=$((currentScore - 1))
     fi
   else
     info "$check_3_14"
-    info "     * No TLS Key found"
+    info "      * No TLS Key found"
     resulttestjson "INFO" "No TLS Key found"
     currentScore=$((currentScore + 0))
   fi
@@ -455,7 +455,7 @@ check_3_15() {
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_15"
-      warn "     * Wrong ownership for $file"
+      warn "      * Wrong ownership for $file"
       resulttestjson "WARN" "Wrong ownership for $file"
       currentScore=$((currentScore - 1))
     fi
@@ -483,7 +483,7 @@ check_3_16() {
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_16"
-      warn "     * Wrong permissions for $file"
+      warn "      * Wrong permissions for $file"
       resulttestjson "WARN" "Wrong permissions for $file"
       currentScore=$((currentScore - 1))
     fi
@@ -511,7 +511,7 @@ check_3_17() {
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_17"
-      warn "     * Wrong ownership for $file"
+      warn "      * Wrong ownership for $file"
       resulttestjson "WARN" "Wrong ownership for $file"
       currentScore=$((currentScore - 1))
     fi
@@ -539,7 +539,7 @@ check_3_18() {
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_18"
-      warn "     * Wrong permissions for $file"
+      warn "      * Wrong permissions for $file"
       resulttestjson "WARN" "Wrong permissions for $file"
       currentScore=$((currentScore - 1))
     fi
@@ -567,7 +567,7 @@ check_3_19() {
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_19"
-      warn "     * Wrong ownership for $file"
+      warn "      * Wrong ownership for $file"
       resulttestjson "WARN" "Wrong ownership for $file"
       currentScore=$((currentScore - 1))
     fi
@@ -582,27 +582,83 @@ check_3_19() {
 # 3.20
 check_3_20() {
   id_3_20="3.20"
-  desc_3_20="Ensure that /etc/default/docker file permissions are set to 644 or more restrictive"
+  desc_3_20="Ensure that the /etc/sysconfig/docker file ownership is set to root:root"
   check_3_20="$id_3_20  - $desc_3_20"
   starttestjson "$id_3_20" "$desc_3_20"
 
   totalChecks=$((totalChecks + 1))
-  file="/etc/default/docker"
+  file="/etc/sysconfig/docker"
   if [ -f "$file" ]; then
-    if [ "$(stat -c %a $file)" -eq 644 ] || [ "$(stat -c %a $file)" -eq 600 ]; then
+    if [ "$(stat -c %U:%G $file)" = 'root:root' ]; then
       pass "$check_3_20"
       resulttestjson "PASS"
       currentScore=$((currentScore + 1))
     else
       warn "$check_3_20"
-      warn "     * Wrong permissions for $file"
-      resulttestjson "WARN" "Wrong permissions for $file"
+      warn "      * Wrong ownership for $file"
+      resulttestjson "WARN" "Wrong ownership for $file"
       currentScore=$((currentScore - 1))
     fi
   else
     info "$check_3_20"
     info "     * File $file not found"
     resulttestjson "INFO" "File $file not found"
+    currentScore=$((currentScore + 0))
+  fi
+}
+
+# 3.21
+check_3_21() {
+  id_3_21="3.21"
+  desc_3_21="Ensure that /etc/sysconfig/docker file permissions are set to 644 or more restrictive"
+  check_3_21="$id_3_21  - $desc_3_21"
+  starttestjson "$id_3_21" "$desc_3_21"
+
+  totalChecks=$((totalChecks + 1))
+  file="/etc/sysconfig/docker"
+  if [ -f "$file" ]; then
+    if [ "$(stat -c %a $file)" -eq 644 ] || [ "$(stat -c %a $file)" -eq 600 ]; then
+      pass "$check_3_21"
+      resulttestjson "PASS"
+      currentScore=$((currentScore + 1))
+    else
+      warn "$check_3_21"
+      warn "      * Wrong permissions for $file"
+      resulttestjson "WARN" "Wrong permissions for $file"
+      currentScore=$((currentScore - 1))
+    fi
+  else
+    info "$check_3_21"
+    info "      * File not found"
+    resulttestjson "INFO" "File not found"
+    currentScore=$((currentScore + 0))
+  fi
+}
+
+# 3.22
+check_3_22() {
+  id_3_22="3.22"
+  desc_3_22="Ensure that /etc/default/docker file permissions are set to 644 or more restrictive"
+  check_3_22="$id_3_22  - $desc_3_22"
+  starttestjson "$id_3_22" "$desc_3_22"
+
+  totalChecks=$((totalChecks + 1))
+  file="/etc/default/docker"
+  if [ -f "$file" ]; then
+    if [ "$(stat -c %a $file)" -eq 644 ] || [ "$(stat -c %a $file)" -eq 600 ]; then
+      pass "$check_3_22"
+      resulttestjson "PASS"
+      currentScore=$((currentScore + 1))
+    else
+      warn "$check_3_22"
+      warn "      * Wrong permissions for $file"
+      resulttestjson "WARN" "Wrong permissions for $file"
+      currentScore=$((currentScore - 1))
+    fi
+  else
+    info "$check_3_22"
+    info "      * File not found"
+    resulttestjson "INFO" "File not found"
     currentScore=$((currentScore + 0))
   fi
 }

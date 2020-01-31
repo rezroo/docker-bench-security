@@ -4,9 +4,7 @@
 
 The Docker Bench for Security is a script that checks for dozens of common
 best-practices around deploying Docker containers in production. The tests are
-all automated, and are inspired by the [CIS Docker Community Edition Benchmark v1.1.0](https://benchmarks.cisecurity.org/tools2/docker/CIS_Docker_Community_Edition_Benchmark_v1.1.0.pdf).
-We are releasing this as a follow-up to our [Understanding Docker Security and Best Practices](https://blog.docker.com/2015/05/understanding-docker-security-and-best-practices/)
-blog post.
+all automated, and are inspired by the [CIS Docker Benchmark v1.2.0](https://www.cisecurity.org/benchmark/docker/).
 
 We are making this available as an open-source utility so the Docker community
 can have an easy way to self-assess their hosts and docker containers against
@@ -26,12 +24,12 @@ running our pre-built container:
 ```sh
 docker run -it --net host --pid host --userns host --cap-add audit_control \
     -e DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST \
-    -v /etc:/etc \
-    -v /usr/bin/docker-containerd:/usr/bin/docker-containerd \
-    -v /usr/bin/docker-runc:/usr/bin/docker-runc \
-    -v /usr/lib/systemd:/usr/lib/systemd \
-    -v /var/lib:/var/lib \
-    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /etc:/etc:ro \
+    -v /usr/bin/docker-containerd:/usr/bin/docker-containerd:ro \
+    -v /usr/bin/docker-runc:/usr/bin/docker-runc:ro \
+    -v /usr/lib/systemd:/usr/lib/systemd:ro \
+    -v /var/lib:/var/lib:ro \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
     --label docker_bench_security \
     docker/docker-bench-security
 ```
@@ -56,9 +54,8 @@ version 1.13.0 or later.
   -l FILE      optional  Log output in FILE
   -c CHECK     optional  Comma delimited list of specific check(s)
   -e CHECK     optional  Comma delimited list of specific check(s) to exclude
-  -i INCLUDE   optional  Comma delimited list of patterns within a container name to check
-  -x EXCLUDE   optional  Comma delimited list of patterns within a container name to exclude from check
-  -t TARGET    optional  Comma delimited list of images name to check
+  -i INCLUDE   optional  Comma delimited list of patterns within a container or image name to check
+  -x EXCLUDE   optional  Comma delimited list of patterns within a container or image name to exclude from check
 ```
 
 By default the Docker Bench for Security script will run all available CIS tests
@@ -73,6 +70,16 @@ will only run check `2.2 Ensure the logging level is set to 'info'`.
 
 `sh docker-bench-security.sh -l /tmp/docker-bench-security.sh.log -e check_2_2`
 will run all available checks except `2.2 Ensure the logging level is set to 'info'`.
+
+`sh docker-bench-security.sh -l /tmp/docker-bench-security.sh.log -e docker_enterprise_configuration`
+will run all available checks except the docker_enterprise_configuration group
+
+`sh docker-bench-security.sh -l /tmp/docker-bench-security.sh.log -e docker_enterprise_configuration,check_2_2`
+will run all available checks except the docker_enterprise_configuration group
+and `2.2 Ensure the logging level is set to 'info'`
+
+`sh docker-bench-security.sh -l /tmp/docker-bench-security.sh.log -c container_images -e check_4_5`
+will run just the container_images checks except `4.5 Ensure Content trust for Docker is Enabled`
 
 Note that when submitting checks, provide information why it is a
 reasonable test to add and please include some kind of official documentation
@@ -89,10 +96,10 @@ cd docker-bench-security
 docker build --no-cache -t docker-bench-security .
 docker run -it --net host --pid host --cap-add audit_control \
     -e DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST \
-    -v /var/lib:/var/lib \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /usr/lib/systemd:/usr/lib/systemd \
-    -v /etc:/etc --label docker_bench_security \
+    -v /var/lib:/var/lib:ro \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    -v /usr/lib/systemd:/usr/lib/systemd:ro \
+    -v /etc:/etc:ro --label docker_bench_security \
     docker-bench-security
 ```
 
